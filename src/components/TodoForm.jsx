@@ -6,9 +6,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton
 } from "@material-ui/core";
+import { EditOutlined } from "@material-ui/icons";
 
-const TodoForm = ({ onSaveTodo }) => {
+const TodoForm = ({ onSaveTodo,type,id }) => {
+  console.log(id);
   const [open, setOpen] = useState(false);
   const [todo, setTodo] = useState({
     title: "",
@@ -25,6 +28,7 @@ const TodoForm = ({ onSaveTodo }) => {
     setTodo({ title: "", description: "", id: Date.now() });
   };
 
+
   const handleSave = () => {
     onSaveTodo(todo);
     setTodo({ title: "", description: "", id: Date.now() });
@@ -33,14 +37,25 @@ const TodoForm = ({ onSaveTodo }) => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={handleClickOpen}
-        style={{ marginBottom: "2rem" }}
-      >
-        Add Todo
-      </Button>
+     {
+      type=='add-todo' &&  <Button
+      variant="outlined"
+      color="primary"
+      onClick={handleClickOpen}
+      style={{ marginBottom: "2rem" }}
+    >
+      Add Todo
+    </Button>
+     }
+     {
+      type=='edit' && <IconButton
+      edge="end"
+      aria-label="edit"
+      onClick={handleClickOpen}
+    >
+      <EditOutlined/>
+    </IconButton>
+     }
       <Dialog
         open={open}
         onClose={handleClose}

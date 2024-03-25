@@ -1,4 +1,3 @@
-// components/TodoCard.js
 import React, { useState } from "react";
 import {
   Card,
@@ -12,28 +11,35 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Proptypes from "prop-types";
 
+import TodoForm from "./TodoForm";
+import { useSelector, useDispatch } from "react-redux";
+import { addTodo, deleteTodo, editTodo } from "../redux/todosSlice";
+
 const useStyles = makeStyles((theme) => ({
   card: {
     transition: "transform 0.3s",
     cursor: "pointer",
     "&:hover": {
-      boxShadow: `0 0 10px 3px ${theme.palette.primary.main}`,
+      boxShadow: "0 0 10px 3px ${theme.palette.primary.main}",
       transform: "scale(1.02)",
     },
   },
-  deleteButton: {
-    position: "absolute",
-    top: theme.spacing(1),
-    right: theme.spacing(1),
-  },
 }));
+
 
 const TodoCard = ({ todo, onDeleteTodo }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const handleToggleDescription = () => {
     setShowFullDescription(!showFullDescription);
+  };
+
+  
+
+  const handleEditTodo = (updatedTodo) => {
+    console.log("updatedTodo:",updatedTodo);
+    dispatch(editTodo(updatedTodo)); 
   };
 
   return (
@@ -66,6 +72,7 @@ const TodoCard = ({ todo, onDeleteTodo }) => {
         >
           <DeleteIcon />
         </IconButton>
+        <TodoForm onSaveTodo={handleEditTodo} type="edit" id={todo.id} />
       </CardContent>
     </Card>
   );
@@ -74,6 +81,7 @@ const TodoCard = ({ todo, onDeleteTodo }) => {
 TodoCard.propTypes = {
   todo: Proptypes.object,
   onDeleteTodo: Proptypes.func,
+  onEditTodo: Proptypes.func,
 };
 
 export default TodoCard;

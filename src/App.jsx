@@ -1,7 +1,7 @@
 import React from "react";
-import { Container, Typography, Button, Grid } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo, deleteTodo } from "./redux/todosSlice";
+import { addTodo, deleteTodo } from "./redux/todosSlice"; // Import editTodo
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 
@@ -10,6 +10,7 @@ function App() {
   const dispatch = useDispatch();
 
   const handleAddTodo = (todo) => {
+    console.log(todo);
     dispatch(addTodo(todo));
   };
 
@@ -17,13 +18,15 @@ function App() {
     dispatch(deleteTodo(id));
   };
 
+
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h3" align="center" gutterBottom>
         Todo App
       </Typography>
-      <TodoForm onSaveTodo={handleAddTodo} />
-      <TodoList todos={todos} onDeleteTodo={handleDeleteTodo} />
+      <TodoForm onSaveTodo={handleAddTodo} type="add-todo" />
+      <TodoList todos={todos} onDeleteTodo={handleDeleteTodo}  />
     </Container>
   );
 }
